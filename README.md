@@ -10,7 +10,7 @@
 
 **An intelligent HR Assistant application built with Next.js, Firebase, and Groq AI**
 
-[Live Demo](https://scalovate-hr-ai.web.app) • [Documentation](#documentation) • [Report Bug](https://github.com/scalovate/autonomy-enterprise-hr/issues) • [Request Feature](https://github.com/scalovate/autonomy-enterprise-hr/issues)
+[Live Demo](https://scalovate-hr-ai.web.app) - use creds in Trial Credentials Section below • [Documentation](#documentation) • [Report Bug](https://github.com/scalovate/autonomy-enterprise-hr/issues) • [Request Feature](https://github.com/scalovate/autonomy-enterprise-hr/issues)
 
 </div>
 
@@ -80,17 +80,17 @@ Autonomy Enterprise HR Assistant is a production-ready application that helps re
 
 **⚠️ IMPORTANT:** These credentials are for testing purposes only. Replace with your own Firebase project and user accounts in production.
 
-### Test User Accounts
+### Test User Accounts (for the demo link above)
 
 | Role | Email | Password | Access Level |
 |------|-------|----------|--------------|
-| **Admin** | `hradmin@company.com` | `admin123` | Full system access |
-| **Manager** | `manager@company.com` | `manager123` | Team management, approvals |
-| **Employee** | `employee@company.com` | `employee123` | Basic employee features |
+| **Admin** | `hradmin@company.com` | `123456` | Full system access |
+| **Manager** | `manager@company.com` | `123456` | Team management, approvals |
+| **Employee** | `employee@company.com` | `123456` | Basic employee features |
 
 ### Default Passwords
 
-If the above passwords don't work, try:
+When setting up your own project, please ensure to use a strong password, and not ones mentioned below ;) :
 - `password123`
 - `test123`
 - `demo123`
