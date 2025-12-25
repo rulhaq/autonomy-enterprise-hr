@@ -10,12 +10,12 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyCkfVo9ue1PGnJeeRG-CNYOcHH1l8_rNZA",
-  authDomain: "scalovate-hr-ai.firebaseapp.com",
-  projectId: "scalovate-hr-ai",
-  storageBucket: "scalovate-hr-ai.firebasestorage.app",
-  messagingSenderId: "645411630048",
-  appId: "1:645411630048:web:ee67f50123149d6fd85985",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || process.env.FIREBASE_API_KEY || '',
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || process.env.FIREBASE_AUTH_DOMAIN || '',
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || process.env.FIREBASE_PROJECT_ID || '',
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || process.env.FIREBASE_STORAGE_BUCKET || '',
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || process.env.FIREBASE_MESSAGING_SENDER_ID || '',
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || process.env.FIREBASE_APP_ID || '',
 };
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
