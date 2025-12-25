@@ -1,0 +1,133 @@
+rules_version = '2';
+service cloud.firestore {
+  // Helper function to check if user is manager of an employee
+  function isManagerOfEmployee(employeeId) {
+    return exists(/databases/$(database)/documents/users/$(employeeId)) &&
+           get(/databases/$(database)/documents/users/$(employeeId)).data.managerId == request.auth.uid;
+  }
+  
+  // Helper function to get current user role
+  function getUserRole() {
+    return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+  }
+  
+  // Helper function to check if current user is manager
+  function isManager() {
+    return request.auth != null && 
+           exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+           get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'manager';
+  }
+  
+  match /databases/{database}/documents {
+    // Users collection
+    match /users/{userId} {
+      // Users can read their own data
+      allow read: if request.auth != null && request.auth.uid == userId;
+      // Managers can read their direct reports (for queries)
+      allow read: if request.auth != null && 
+        resource.data.managerId == request.auth.uid;
+      // Admins and HR can read all users
+      allow read: if request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'hr'];
+      // Users can update their own data (limited fields like phone, language)
+      allow update: if request.auth != null && request.auth.uid == userId &&
+        request.resource.data.id == resource.data.id &&
+        request.resource.data.email == resource.data.email &&
+        request.resource.data.employeeId == resource.data.employeeId &&
+        request.resource.data.role == resource.data.role;
+      // Admins and HR can write all users
+      allow write: if request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'hr'];
+    }
+    
+    // Leave applications
+    match /leaveApplications/{applicationId} {
+      // Employees can read their own applications
+      allow read: if request.auth != null && resource.data.employeeId == request.auth.uid;
+      // Managers can read applications from their direct reports
+      allow read: if request.auth != null && isManagerOfEmployee(resource.data.employeeId);
+      // Approvers can read applications assigned to them
+      allow read: if request.auth != null && resource.data.approverId == request.auth.uid;
+      // Admins and HR can read all applications
+      allow read: if request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['hr', 'admin'];
+      // Employees can create their own applications
+      allow create: if request.auth != null && request.resource.data.employeeId == request.auth.uid;
+      // Managers can update applications from their direct reports
+      allow update: if request.auth != null && (
+        resource.data.approverId == request.auth.uid ||
+        isManagerOfEmployee(resource.data.employeeId) ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['hr', 'admin'])
+      );
+    }
+    
+    // Leave balances
+    match /leaveBalances/{userId} {
+      // Users can read their own leave balance
+      allow read: if request.auth != null && request.auth.uid == userId;
+      // Managers can read their direct reports' leave balances
+      allow read: if request.auth != null && isManagerOfEmployee(userId);
+      // Admins and HR can read all leave balances
+      allow read: if request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['hr', 'admin'];
+      // Only HR and Admin can write leave balances
+      allow write: if request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['hr', 'admin'];
+    }
+    
+    // Payslips
+    match /payslips/{payslipId} {
+      // Employees can read their own payslips
+      allow read: if request.auth != null && resource.data.employeeId == request.auth.uid;
+      // Admins and HR can read all payslips
+      allow read: if request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['hr', 'admin'];
+      // Only HR and Admin can write payslips
+      allow write: if request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['hr', 'admin'];
+    }
+    
+    // Conversations
+    match /conversations/{conversationId} {
+      // Users can read their own conversations
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      // Users can create their own conversations
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      // Admins and HR can read all conversations
+      allow read: if request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['hr', 'admin'];
+    }
+    
+    // HR Documents (public read for authenticated users)
+    match /hrDocuments/{documentId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['hr', 'admin'];
+    }
+
+    // Storage connections (for external storage)
+    match /storageConnections/{connectionId} {
+      allow read: if request.auth != null && (
+        resource.data.userId == request.auth.uid ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'hr'])
+      );
+      allow write: if request.auth != null && (
+        request.resource.data.userId == request.auth.uid ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'hr'])
+      );
+    }
+  }
+}
+

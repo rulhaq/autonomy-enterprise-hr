@@ -1,0 +1,73 @@
+{
+  "greeting": "Kumusta! Ako ang iyong HR Assistant.",
+  "leave": {
+    "apply": "Mag-apply ng Leave",
+    "balance": "Leave Balance",
+    "history": "Leave History",
+    "pending": "Pending Applications"
+  },
+  "payslip": {
+    "download": "I-download ang Payslip",
+    "view": "Tingnan ang Payslip"
+  },
+  "hierarchy": {
+    "view": "Tingnan ang Hierarchy",
+    "manager": "Manager",
+    "team": "Team Members"
+  },
+  "appraisal": {
+    "status": "Tingnan ang Appraisal Status",
+    "view": "Tingnan ang Appraisal"
+  },
+  "policies": {
+    "browse": "Browse ang Policies",
+    "view": "Tingnan ang Policy"
+  },
+  "salary": {
+    "details": "Salary Details"
+  },
+  "approvals": {
+    "pending": "Aking Approvals",
+    "approve": "Approve",
+    "reject": "Reject"
+  },
+  "contact": {
+    "hr": "Makipag-ugnayan sa HR"
+  },
+  "chat": {
+    "placeholder": "Tanungin mo ako tungkol sa HR...",
+    "send": "Ipadala",
+    "thinking": "Nag-iisip...",
+    "error": "Paumanhin, ngunit may naganap na error sa pagproseso ng iyong request."
+  },
+  "header": {
+    "welcome": "Maligayang pagdating, {{name}}"
+  },
+  "admin": {
+    "dashboard": "Admin Dashboard",
+    "users": "Pamahalaan ang Users",
+    "documents": "Pamahalaan ang Documents",
+    "policies": "Pamahalaan ang Policies",
+    "upload": "Mag-upload ng Document",
+    "connect": "Ikonekta ang External Storage"
+  },
+  "manager": {
+    "team": "Aking Team",
+    "requests": "Team Requests",
+    "leave": "Team Leave Status",
+    "approve": "Approve Request"
+  },
+  "error": {
+    "generic": "May nangyaring mali. Pakisubukan muli.",
+    "auth": "Mangyaring mag-sign in upang magpatuloy."
+  },
+  "success": {
+    "leave": {
+      "submitted": "Matagumpay na naipasa ang leave application!"
+    },
+    "payslip": {
+      "downloaded": "Matagumpay na na-download ang payslip!"
+    }
+  }
+}
+

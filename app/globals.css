@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .glass {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+  }
+  
+  .glass-dark {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+  }
+  
+  .glass-hover {
+    transition: all 0.3s ease;
+  }
+  
+  .glass-hover:hover {
+    background: #f3f4f6;
+    transform: translateY(-2px);
+  }
+  
+  .gradient-bg {
+    background: #ffffff;
+  }
+
+  .gradient-bg-alt {
+    background: #f9fafb;
+  }
+
+  .gradient-bg-blue {
+    background: #ffffff;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* RTL support */
+[dir="rtl"] {
+  direction: rtl;
+}
+
+[dir="ltr"] {
+  direction: ltr;
+}
+
+/* Multi-language font support */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Arabic font support */
+[lang="ar"], [dir="rtl"] {
+  font-family: 'Inter', 'Cairo', 'Tajawal', 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Hindi/Devanagari font support */
+[lang="hi"] {
+  font-family: 'Inter', 'Noto Sans Devanagari', 'Mukta', -apple-system, sans-serif;
+}
+
+/* Urdu font support */
+[lang="ur"] {
+  font-family: 'Inter', 'Noto Nastaliq Urdu', 'Noto Sans Arabic', -apple-system, sans-serif;
+}
+
+/* Tamil font support */
+[lang="ta"] {
+  font-family: 'Inter', 'Noto Sans Tamil', -apple-system, sans-serif;
+}
+
+/* Malayalam font support */
+[lang="ml"] {
+  font-family: 'Inter', 'Noto Sans Malayalam', -apple-system, sans-serif;
+}
+

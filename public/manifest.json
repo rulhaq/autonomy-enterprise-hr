@@ -1,0 +1,12 @@
+{
+  "name": "Autonomy HR - Autonomy Enterprise",
+  "short_name": "Autonomy HR",
+  "description": "Your intelligent HR Assistant for leave management, payslips, policies, and more",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#667eea",
+  "theme_color": "#0ea5e9",
+  "orientation": "portrait-primary",
+  "icons": []
+}
+

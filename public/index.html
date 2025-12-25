@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Autonomy Enterprise HR Assistant - AI-powered HR solution built with Next.js, Firebase, and Groq AI">
+    <meta name="keywords" content="HR Assistant, AI Chat, Leave Management, Employee Portal, HR Software">
+    <meta name="author" content="Scalovate Systems Solutions">
+    <title>Autonomy Enterprise HR Assistant - AI-Powered HR Solution</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #10b981;
+            --accent: #8b5cf6;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --bg: #ffffff;
+            --bg-light: #f9fafb;
+            --border: #e5e7eb;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .cta-button {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .cta-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 6rem 0;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Demo Section */
+        .demo-section {
+            padding: 5rem 0;
+            background: var(--bg-light);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .demo-container {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            max-width: 1000px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .svg-container {
+            margin: 0;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+        }
+
+        /* Use Cases Section */
+        .use-cases {
+            padding: 5rem 0;
+            background: var(--bg-light);
+        }
+
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .use-case-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .use-case-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            padding: 5rem 0;
+        }
+
+        .benefits-list {
+            max-width: 800px;
+            margin: 3rem auto 0;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: start;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            background: var(--bg-light);
+            border-radius: 0.5rem;
+        }
+
+        .benefit-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 5rem 0;
+            background: var(--bg-light);
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 1rem;
+            position: relative;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            padding: 5rem 0;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .tech-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border);
+            transition: transform 0.3s;
+        }
+
+        .tech-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .tech-item h4 {
+            margin-top: 1rem;
+            color: var(--text);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .features-grid,
+            .use-cases-grid,
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* SVG Animations */
+        .typing-indicator {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        .message-appear {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">🤖 Autonomy HR</a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#demo">Demo</a></li>
+                <li><a href="#use-cases">Use Cases</a></li>
+                <li><a href="#tech">Tech Stack</a></li>
+                <li><a href="https://github.com/scalovate/autonomy-enterprise-hr" target="_blank">GitHub</a></li>
+            </ul>
+            <a href="https://scalovate-hr-ai.web.app" class="cta-button">Try Demo</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Autonomy Enterprise HR Assistant</h1>
+            <p>AI-powered HR solution that reduces workload by 70% and provides instant, accurate responses to employee queries 24/7</p>
+            <div class="hero-buttons">
+                <a href="https://scalovate-hr-ai.web.app" class="btn-primary">🚀 Live Demo</a>
+                <a href="https://github.com/scalovate/autonomy-enterprise-hr" class="btn-secondary">📖 View on GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="demo-section">
+        <div class="container">
+            <h2 class="section-title">See It In Action</h2>
+            <p class="section-subtitle">Experience the power of AI-driven HR assistance with our interactive demo</p>
+            <div class="demo-container">
+                <div class="svg-container">
+                    <svg viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+                            </linearGradient>
+                            <filter id="shadow">
+                                <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.2"/>
+                            </filter>
+                        </defs>
+                        
+                        <!-- Background -->
+                        <rect width="1000" height="600" fill="#f9fafb"/>
+                        
+                        <!-- Chat Interface Container -->
+                        <rect x="50" y="30" width="900" height="540" rx="12" fill="#ffffff" stroke="#e5e7eb" stroke-width="2" filter="url(#shadow)"/>
+                        
+                        <!-- Header -->
+                        <rect x="50" y="30" width="900" height="70" rx="12" fill="url(#headerGrad)"/>
+                        <circle cx="90" cy="65" r="18" fill="#ffffff" opacity="0.9"/>
+                        <text x="120" y="72" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="white">HR Assistant</text>
+                        <circle cx="920" cy="65" r="6" fill="#10b981" opacity="0.8">
+                            <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                        <text x="935" y="70" font-family="Arial, sans-serif" font-size="12" fill="white">Online</text>
+                        
+                        <!-- Chat Messages Area -->
+                        <rect x="70" y="120" width="860" height="350" fill="#fafbfc" rx="8"/>
+                        
+                        <!-- User Message 1 -->
+                        <rect x="580" y="140" width="320" height="50" rx="12" fill="#2563eb" class="message-appear">
+                            <animate attributeName="opacity" values="0;1" dur="0.5s" begin="0s" fill="freeze"/>
+                        </rect>
+                        <text x="600" y="165" font-family="Arial, sans-serif" font-size="14" fill="white" font-weight="500">How many leave days do I have?</text>
+                        <circle cx="930" cy="165" r="4" fill="white" opacity="0.7">
+                            <animate attributeName="opacity" values="0.7;1;0.7" dur="1.5s" repeatCount="indefinite"/>
+                        </circle>
+                        
+                        <!-- AI Response 1 -->
+                        <rect x="70" y="210" width="400" height="90" rx="12" fill="#ffffff" stroke="#e5e7eb" stroke-width="1.5" class="message-appear">
+                            <animate attributeName="opacity" values="0;1" dur="0.5s" begin="0.8s" fill="freeze"/>
+                        </rect>
+                        <text x="90" y="235" font-family="Arial, sans-serif" font-size="14" fill="#1f2937" font-weight="500">You have 15 annual leave days remaining.</text>
+                        <text x="90" y="260" font-family="Arial, sans-serif" font-size="14" fill="#1f2937">Would you like to apply for leave?</text>
+                        <text x="90" y="285" font-family="Arial, sans-serif" font-size="12" fill="#10b981">✓ Answered instantly</text>
+                        
+                        <!-- Typing Indicator -->
+                        <g class="typing-indicator">
+                            <circle cx="100" cy="320" r="4" fill="#6b7280">
+                                <animate attributeName="opacity" values="0.3;1;0.3" dur="1s" begin="2s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="120" cy="320" r="4" fill="#6b7280">
+                                <animate attributeName="opacity" values="0.3;1;0.3" dur="1s" begin="2.2s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="140" cy="320" r="4" fill="#6b7280">
+                                <animate attributeName="opacity" values="0.3;1;0.3" dur="1s" begin="2.4s" repeatCount="indefinite"/>
+                            </circle>
+                        </g>
+                        
+                        <!-- Quick Actions -->
+                        <g class="message-appear">
+                            <animate attributeName="opacity" values="0;1" dur="0.5s" begin="3s" fill="freeze"/>
+                            <!-- Apply Leave Card -->
+                            <rect x="70" y="360" width="180" height="90" rx="10" fill="#10b981" opacity="0.1" stroke="#10b981" stroke-width="2"/>
+                            <text x="90" y="385" font-family="Arial, sans-serif" font-size="16" fill="#10b981" font-weight="bold">📅</text>
+                            <text x="90" y="410" font-family="Arial, sans-serif" font-size="13" fill="#10b981" font-weight="600">Apply Leave</text>
+                            <text x="90" y="435" font-family="Arial, sans-serif" font-size="11" fill="#059669">Quick action</text>
+                            
+                            <!-- View Payslip Card -->
+                            <rect x="270" y="360" width="180" height="90" rx="10" fill="#2563eb" opacity="0.1" stroke="#2563eb" stroke-width="2"/>
+                            <text x="290" y="385" font-family="Arial, sans-serif" font-size="16" fill="#2563eb" font-weight="bold">💰</text>
+                            <text x="290" y="410" font-family="Arial, sans-serif" font-size="13" fill="#2563eb" font-weight="600">View Payslip</text>
+                            <text x="290" y="435" font-family="Arial, sans-serif" font-size="11" fill="#1e40af">Download PDF</text>
+                            
+                            <!-- Policies Card -->
+                            <rect x="470" y="360" width="180" height="90" rx="10" fill="#8b5cf6" opacity="0.1" stroke="#8b5cf6" stroke-width="2"/>
+                            <text x="490" y="385" font-family="Arial, sans-serif" font-size="16" fill="#8b5cf6" font-weight="bold">📚</text>
+                            <text x="490" y="410" font-family="Arial, sans-serif" font-size="13" fill="#8b5cf6" font-weight="600">HR Policies</text>
+                            <text x="490" y="435" font-family="Arial, sans-serif" font-size="11" fill="#6d28d9">Browse docs</text>
+                            
+                            <!-- Profile Card -->
+                            <rect x="670" y="360" width="180" height="90" rx="10" fill="#f59e0b" opacity="0.1" stroke="#f59e0b" stroke-width="2"/>
+                            <text x="690" y="385" font-family="Arial, sans-serif" font-size="16" fill="#f59e0b" font-weight="bold">👤</text>
+                            <text x="690" y="410" font-family="Arial, sans-serif" font-size="13" fill="#f59e0b" font-weight="600">My Profile</text>
+                            <text x="690" y="435" font-family="Arial, sans-serif" font-size="11" fill="#d97706">Edit info</text>
+                        </g>
+                        
+                        <!-- Input Area -->
+                        <rect x="70" y="490" width="860" height="60" rx="12" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"/>
+                        <text x="100" y="525" font-family="Arial, sans-serif" font-size="14" fill="#9ca3af" font-style="italic">Type your message...</text>
+                        <circle cx="900" cy="520" r="18" fill="#2563eb" class="pulse">
+                            <animate attributeName="r" values="18;20;18" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                        <text x="895" y="526" font-family="Arial, sans-serif" font-size="14" fill="white" font-weight="bold">→</text>
+                        
+                        <!-- Animated Background Elements -->
+                        <circle cx="200" cy="200" r="3" fill="#2563eb" opacity="0.2" class="pulse">
+                            <animate attributeName="cy" values="200;190;200" dur="3s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="800" cy="300" r="2" fill="#10b981" opacity="0.2" class="pulse">
+                            <animate attributeName="cy" values="300;290;300" dur="2.5s" repeatCount="indefinite"/>
+                        </circle>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Powerful Features</h2>
+            <p class="section-subtitle">Everything you need to transform your HR operations</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI-Powered Chat</h3>
+                    <p>Natural language conversations with Groq AI for instant HR assistance. Get answers to leave policies, payslip queries, and more in seconds.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📅</div>
+                    <h3>Leave Management</h3>
+                    <p>Complete leave management system with balance tracking, application submission, manager approvals, and comprehensive leave history.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3>Multi-Language Support</h3>
+                    <p>Support for 7 languages: English, Arabic, Hindi, Urdu, Tagalog, Malayalam, and Tamil. Switch languages seamlessly without losing context.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Role-Based Access</h3>
+                    <p>Three-tier access control: Employee, Manager, and Admin. Each role has specific permissions and features tailored to their needs.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Analytics Dashboard</h3>
+                    <p>Comprehensive analytics for admins: query volume, top queries, resolution rates, and team performance metrics with visual charts.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Document Management</h3>
+                    <p>Upload and manage HR policies, handbooks, and documents. AI-powered document search with RAG system for accurate retrieval.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Payslip Access</h3>
+                    <p>Secure access to payslips with download functionality. View salary history and payment details with encryption.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Modern UI</h3>
+                    <p>Beautiful glass morphism design with smooth animations. Fully responsive and works seamlessly on all devices.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Secure Authentication</h3>
+                    <p>Firebase Authentication with email/password. Secure Firestore rules and role-based access control for maximum security.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section id="use-cases" class="use-cases">
+        <div class="container">
+            <h2 class="section-title">Perfect For</h2>
+            <p class="section-subtitle">Ideal solutions for various HR challenges</p>
+            <div class="use-cases-grid">
+                <div class="use-case-card">
+                    <h3>🏢 Enterprise Companies</h3>
+                    <p>Reduce HR team workload by handling routine employee queries automatically, allowing HR to focus on strategic initiatives.</p>
+                </div>
+                <div class="use-case-card">
+                    <h3>🌐 Global Organizations</h3>
+                    <p>Support employees in multiple languages and time zones with 24/7 AI assistance, breaking down language barriers.</p>
+                </div>
+                <div class="use-case-card">
+                    <h3>📈 Growing Startups</h3>
+                    <p>Scale HR operations without scaling HR headcount. Handle employee queries efficiently as your team grows.</p>
+                </div>
+                <div class="use-case-card">
+                    <h3>🎓 Educational Institutions</h3>
+                    <p>Manage staff leave, policies, and administrative queries with an intuitive interface designed for non-technical users.</p>
+                </div>
+                <div class="use-case-card">
+                    <h3>🏭 Manufacturing & Retail</h3>
+                    <p>Support shift workers and field employees with mobile-friendly access to HR information and leave management.</p>
+                </div>
+                <div class="use-case-card">
+                    <h3>💼 Professional Services</h3>
+                    <p>Enable managers to approve leave and track team performance while employees self-serve routine HR needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="container">
+            <h2 class="section-title">Why Choose Autonomy HR?</h2>
+            <p class="section-subtitle">Transform your HR operations with AI-powered efficiency</p>
+            <div class="benefits-list">
+                <div class="benefit-item">
+                    <div class="benefit-icon">⚡</div>
+                    <div>
+                        <h3>70% Reduction in HR Queries</h3>
+                        <p>Automate routine questions and free up your HR team to focus on strategic work and employee development.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">⏱️</div>
+                    <div>
+                        <h3>24/7 Availability</h3>
+                        <p>Employees get instant answers anytime, anywhere. No more waiting for HR office hours or email responses.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🌍</div>
+                    <div>
+                        <h3>Multi-Language Support</h3>
+                        <p>Serve a diverse workforce with native language support for 7 languages, improving accessibility and understanding.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">💰</div>
+                    <div>
+                        <h3>Cost Effective</h3>
+                        <p>Reduce HR operational costs by automating routine tasks. No need for additional HR staff to handle common queries.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">📊</div>
+                    <div>
+                        <h3>Data-Driven Insights</h3>
+                        <p>Get analytics on common queries, employee needs, and HR trends to make informed decisions and improve policies.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🔒</div>
+                    <div>
+                        <h3>Enterprise Security</h3>
+                        <p>Built with Firebase security best practices, role-based access control, and encrypted data storage.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">Get started in minutes, not months</p>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Clone & Install</h3>
+                    <p>Clone the repository and install dependencies. Follow our simple setup guide.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Configure</h3>
+                    <p>Set up your Firebase project and Groq API key. We provide detailed instructions.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Deploy</h3>
+                    <p>Deploy to Firebase Hosting or your preferred platform. It's that simple!</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Customize</h3>
+                    <p>Contact us for customization, branding, or additional features tailored to your needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section id="tech" class="tech-stack">
+        <div class="container">
+            <h2 class="section-title">Built With Modern Technology</h2>
+            <p class="section-subtitle">Powered by industry-leading tools and frameworks</p>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <div style="font-size: 3rem;">⚡</div>
+                    <h4>Next.js 14</h4>
+                    <p>React framework with App Router</p>
+                </div>
+                <div class="tech-item">
+                    <div style="font-size: 3rem;">🔥</div>
+                    <h4>Firebase</h4>
+                    <p>Authentication, Firestore, Storage</p>
+                </div>
+                <div class="tech-item">
+                    <div style="font-size: 3rem;">🚀</div>
+                    <h4>Groq AI</h4>
+                    <p>Ultra-fast AI inference</p>
+                </div>
+                <div class="tech-item">
+                    <div style="font-size: 3rem;">🎯</div>
+                    <h4>TypeScript</h4>
+                    <p>Type-safe codebase</p>
+                </div>
+                <div class="tech-item">
+                    <div style="font-size: 3rem;">🎨</div>
+                    <h4>Tailwind CSS</h4>
+                    <p>Utility-first styling</p>
+                </div>
+                <div class="tech-item">
+                    <div style="font-size: 3rem;">📦</div>
+                    <h4>Zustand</h4>
+                    <p>State management</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Transform Your HR Operations?</h2>
+            <p>Get started today with our open-source solution or contact us for custom development</p>
+            <div class="hero-buttons">
+                <a href="https://scalovate-hr-ai.web.app" class="btn-primary" style="background: white; color: var(--primary);">Try Live Demo</a>
+                <a href="https://github.com/scalovate/autonomy-enterprise-hr" class="btn-secondary" style="border-color: white;">View on GitHub</a>
+                <a href="mailto:support@scalovate.com" class="btn-secondary" style="border-color: white;">Contact Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://github.com/scalovate/autonomy-enterprise-hr">GitHub</a>
+                <a href="https://scalovate-hr-ai.web.app">Live Demo</a>
+                <a href="#features">Features</a>
+                <a href="LICENSE">License</a>
+                <a href="mailto:support@scalovate.com">Support</a>
+            </div>
+            <p>&copy; 2025 Scalovate Systems Solutions. MIT License (Educational Use).</p>
+            <p style="margin-top: 1rem; opacity: 0.8; font-size: 0.9rem;">
+                This software is provided for educational purposes only. For customization and commercial use, please contact support@scalovate.com
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

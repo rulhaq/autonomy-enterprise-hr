@@ -1,0 +1,91 @@
+{
+  "greeting": "Hello! I'm your HR Assistant.",
+  "leave": {
+    "apply": "Apply for Leave",
+    "balance": "Leave Balance",
+    "history": "Leave History",
+    "pending": "Pending Applications"
+  },
+  "payslip": {
+    "download": "Download Payslip",
+    "view": "View Payslip"
+  },
+  "hierarchy": {
+    "view": "View Hierarchy",
+    "manager": "Manager",
+    "team": "Team Members"
+  },
+  "appraisal": {
+    "status": "Check Appraisal Status",
+    "view": "View Appraisal"
+  },
+  "policies": {
+    "browse": "Browse Policies",
+    "view": "View Policy"
+  },
+  "salary": {
+    "details": "Salary Details"
+  },
+  "approvals": {
+    "pending": "My Approvals",
+    "approve": "Approve",
+    "reject": "Reject"
+  },
+  "contact": {
+    "hr": "Contact HR"
+  },
+  "chat": {
+    "placeholder": "Ask me anything about HR...",
+    "send": "Send",
+    "thinking": "Thinking...",
+    "error": "I apologize, but I encountered an error processing your request."
+  },
+  "header": {
+    "welcome": "Welcome, {{name}}"
+  },
+  "admin": {
+    "dashboard": "Admin Dashboard",
+    "users": "Manage Users",
+    "documents": "Manage Documents",
+    "policies": "Manage Policies",
+    "upload": "Upload Document",
+    "connect": "Connect External Storage"
+  },
+  "manager": {
+    "team": "My Team",
+    "requests": "Team Requests",
+    "leave": "Team Leave Status",
+    "approve": "Approve Request",
+    "teamOverview": "My Team",
+    "teamLeave": "Team Leave Status",
+    "pendingApprovals": "Pending Approvals",
+    "teamProjects": "Team Projects",
+    "teamSites": "Team Locations",
+    "teamPerformance": "Team Performance",
+    "approveRequest": "Approve Requests",
+    "teamBalance": "Team Leave Balances"
+  },
+  "admin": {
+    "manageUsers": "Manage Users",
+    "manageDocuments": "Manage Documents",
+    "viewAnalytics": "View Analytics",
+    "managePolicies": "Manage Policies",
+    "allLeaveRequests": "All Leave Requests",
+    "userRoles": "Manage Roles",
+    "externalStorage": "External Storage",
+    "aiSettings": "AI Settings"
+  },
+  "error": {
+    "generic": "Something went wrong. Please try again.",
+    "auth": "Please sign in to continue."
+  },
+  "success": {
+    "leave": {
+      "submitted": "Leave application submitted successfully!"
+    },
+    "payslip": {
+      "downloaded": "Payslip downloaded successfully!"
+    }
+  }
+}
+
